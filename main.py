@@ -17,13 +17,37 @@
 import webapp2
 import random;
 
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
+def getRandomFortune():
+    #list of possible fortunes
+    fortunes = [
+        "You will find true love on flag day",
+        "Help I'm trapped in a computer",
+        "Invest in Segway"
+    ];
 
+    #randomly select one of the fortunes
+    return random.choice(fortunes);
+
+class MainHandler(webapp2.RequestHandler):
+
+    def get(self):
         header = "<h1>Fortune Cookie</h1>";
-        numberSentence = '<p>Your lucky number is {}</p>'.format(random.randint(1,100));
-        self.response.write(header + numberSentence);
+
+        fortune = "<strong>" + str(getRandomFortune()) + "</strong>"
+        fortuneSentence = "<p>Your fortune: {}</p>".format(fortune);
+
+        luckyNumber = "<strong>" + str(random.randint(1, 100)) + "</strong>"
+        numberSentence = '<p>Your lucky number is {}</p>'.format(luckyNumber);
+
+        button = '<a href="."><button>New cookie pls</button></a>'
+
+        self.response.write(header + fortuneSentence + numberSentence + button);
+
+
+
+
+
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
 ], debug=True)
